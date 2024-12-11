@@ -4,22 +4,21 @@ import java.util.Date;
 
 public class TheMuonSach {
     private int maMuonSach;
-    private Sach sach;
-    private HocSinh hocSinh;
+    private int maSachId;
+    private int maHocSinhId;
     private boolean trangThai;  // TRUE: Đã mượn, FALSE: Đã trả
     private Date ngayMuon;
     private Date ngayTra;
 
-    public TheMuonSach(int maMuonSach, Sach sach, HocSinh hocSinh, boolean trangThai, Date ngayMuon, Date ngayTra) {
+    public TheMuonSach(int maMuonSach, int maSachId, int maHocSinhId, boolean trangThai, Date ngayMuon, Date ngayTra) {
         this.maMuonSach = maMuonSach;
-        this.sach = sach;
-        this.hocSinh = hocSinh;
+        this.maSachId = maSachId;
+        this.maHocSinhId = maHocSinhId;
         this.trangThai = trangThai;
         this.ngayMuon = ngayMuon;
         this.ngayTra = ngayTra;
     }
 
-    // Getters and Setters
     public int getMaMuonSach() {
         return maMuonSach;
     }
@@ -28,20 +27,20 @@ public class TheMuonSach {
         this.maMuonSach = maMuonSach;
     }
 
-    public Sach getSach() {
-        return sach;
+    public int getMaSachId() {
+        return maSachId;
     }
 
-    public void setSach(Sach sach) {
-        this.sach = sach;
+    public void setMaSachId(int maSachId) {
+        this.maSachId = maSachId;
     }
 
-    public HocSinh getHocSinh() {
-        return hocSinh;
+    public int getMaHocSinhId() {
+        return maHocSinhId;
     }
 
-    public void setHocSinh(HocSinh hocSinh) {
-        this.hocSinh = hocSinh;
+    public void setMaHocSinhId(int maHocSinhId) {
+        this.maHocSinhId = maHocSinhId;
     }
 
     public boolean isTrangThai() {

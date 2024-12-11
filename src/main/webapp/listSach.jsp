@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Danh sach sach</h1>
+<h1>Danh Sách Sách</h1>
 <table border="1px solid">
     <tr>
         <th>Mã Sách</th>

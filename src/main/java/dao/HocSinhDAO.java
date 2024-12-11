@@ -2,7 +2,9 @@ package dao;
 
 import connection.DatabaseConnection;
 import model.HocSinh;
+import model.Sach;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,51 +13,61 @@ import java.util.List;
 
 public class HocSinhDAO implements IHocSinhDAO {
     private static final String SELECT_ALL_HOCSINH = "SELECT * FROM hocSinh";
-    private static final Object SELECT_HOCSINH_BY_B_ID = "select id, hoTen, lop from category join book_category bc on category.id = bc.category_id and bc.book_id=?";
+    private static final String SELECT_HOCSINH_BY_B_ID = "SELECT id, hoTen, lop FROM Room WHERE roomId = ?";
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
 
     @Override
-    public List<HocSinh> findAllSach() throws SQLException {
+    public List<HocSinh> findAllHS() throws SQLException {
         List<HocSinh> hocSinhs = new ArrayList<>();
-        try {
-            PreparedStatement statement = databaseConnection.getConnection(SELECT_ALL_HOCSINH);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                HocSinh hocSinh = new HocSinh(id, name, description);
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_HOCSINH)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                HocSinh hocSinh = new HocSinh(
+                        resultSet.getInt("id"),
+                        resultSet.getString("hoTen"),
+                        resultSet.getString("lop")
+                );
                 hocSinhs.add(hocSinh);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            printSQLException(e);
         }
         return hocSinhs;
     }
 
     @Override
-    public List<HocSinh> findAllByHocSinhId(int book_id) {
-        List<HocSinh> hocSinhs = new ArrayList<>();
-        try {
-            PreparedStatement statement1 = databaseConnection.getConnection(SELECT_HOCSINH_BY_B_ID);
-            statement1.setInt(1, book_id);
-            ResultSet resultSet = statement1.executeQuery();
-//            ResultSet resultSet1 = statement1.getGeneratedKeys();
-            while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                HocSinh hocSinh = new HocSinh(id, name, description);
-                hocSinhs.add(hocSinh);
+    public List<HocSinh> findAllByHocSinhId(int id) throws SQLException {
+        HocSinh hocSinh = null;
+        try (Connection connection = databaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_HOCSINH_BY_B_ID)) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                hocSinh = new HocSinh(
+                        rs.getInt("id"),
+                        rs.getString("hoTen"),
+                        rs.getString("lop")
+                );
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
-        return hocSinhs;
+        return (List<HocSinh>) hocSinh;
     }
 
-    public DatabaseConnection getDatabaseConnection() {
-        return databaseConnection;
+    private void printSQLException(SQLException ex) {
+        for (Throwable e : ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.err.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
     }
 }
