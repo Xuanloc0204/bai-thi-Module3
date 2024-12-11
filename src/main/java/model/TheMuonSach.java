@@ -51,20 +51,24 @@ public class TheMuonSach {
         this.trangThai = trangThai;
     }
 
-    public Date getNgayMuon() {
-        return ngayMuon;
+    public java.sql.Date getNgayMuon() {
+        return (java.sql.Date) ngayMuon;
     }
 
     public void setNgayMuon(Date ngayMuon) {
         this.ngayMuon = ngayMuon;
     }
 
-    public Date getNgayTra() {
-        return ngayTra;
+    public java.sql.Date getNgayTra() {
+        return (java.sql.Date) ngayTra;
     }
 
     public void setNgayTra(Date ngayTra) {
         this.ngayTra = ngayTra;
+    }
+
+    public boolean getTrangThai() {
+        return false;
     }
 }
 

@@ -24,9 +24,9 @@ public class SachController extends HttpServlet {
             action = "";
         }
         switch (action) {
-//            case "viewRoom":
-//                    viewRoom(req, resp);
-//                break;
+            case "muonSachForm":
+                showMuonSachForm(req, resp);
+                break;
             case "listSach":
                 listSach(req, resp);
                 break;
@@ -34,6 +34,11 @@ public class SachController extends HttpServlet {
                 listSach(req, resp);
                 break;
         }
+    }
+
+    private void showMuonSachForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("muonSach.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void listSach(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,5 +53,13 @@ public class SachController extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher("error.jsp");
             dispatcher.forward(req, resp);
         }
+    }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+
+
     }
 }

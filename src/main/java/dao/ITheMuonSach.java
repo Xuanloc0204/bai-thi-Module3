@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface ITheMuonSach {
 
-    List<TheMuonSach> findAllBySachId(int id);
-    List<TheMuonSach> findAllByHocSinhId(int id);
+    void add(TheMuonSach theMuonSach);
     List<TheMuonSach> findAll();
 
 

@@ -30,7 +30,7 @@
             <td>${sach.soLuong}</td>
             <td>${sach.moTa}</td>
             <td>
-                <a href="Sach?action=viewRoom&roomId=${sach.id}" class="btn btn-info btn-sm me-2">Mượn Sách</a>
+                <a href="Sach?action=muonSachForm" class="btn btn-info btn-sm me-2">Mượn Sách</a>
             </td>
         </tr>
     </c:forEach>
